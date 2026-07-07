@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TourGo – Regions</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── CSS VARIABLES ─── */
+:root {
+  --primary:     #FF6B2B;
+  --primary-dk:  #E5521A;
+  --secondary:   #00C9B1;
+  --secondary-dk:#00A896;
+  --accent:      #FFD93D;
+  --violet:      #7C3AED;
+  --violet-lt:   #A78BFA;
+  --pink:        #FF4D8D;
+  --bg:          #F0F7FF;
+  --surface:     #FFFFFF;
+  --surface2:    #E8F4FF;
+  --text-primary:#12143A;
+  --text-body:   #2D3561;
+  --text-muted:  #6B7280;
+  --border:      rgba(124,58,237,0.15);
+  --shadow:      rgba(124,58,237,0.12);
+  --nav-bg:      rgba(18,20,58,0.97);
+  --card-bg:     #FFFFFF;
+  --footer-bg:   #12143A;
+  --footer-text: #FFD93D;
+  --btn-primary-bg: #FF6B2B;
+  --btn-primary-text:#FFFFFF;
+}
+[data-theme="dark"] {
+  --bg:          #0D0F2B;
+  --surface:     #161840;
+  --surface2:    #1E2150;
+  --text-primary:#FFD93D;
+  --text-body:   #C4CAFF;
+  --text-muted:  #8B93D0;
+  --border:      rgba(255,107,43,0.2);
+  --shadow:      rgba(0,0,0,0.5);
+  --nav-bg:      rgba(8,9,25,0.98);
+  --card-bg:     #161840;
+  --footer-bg:   #08091A;
+  --footer-text: #FFD93D;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-body);transition:background .4s,color .4s;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#00C9B1;border-radius:99px}
+
+.font-display{font-family:'Cinzel Decorative',cursive}
+.font-serif{font-family:'Cormorant Garamond',serif}
+
+.section-title{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(1.4rem,3vw,2.2rem);
+  color:var(--text-primary);
+  text-align:center;
+  margin-bottom:.5rem;
+  letter-spacing:.04em;
+  background:linear-gradient(135deg,#FF6B2B,#7C3AED);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+[data-theme="dark"] .section-title{
+  background:linear-gradient(135deg,#FF6B2B,#A78BFA);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-sub{text-align:center;color:var(--text-muted);margin-bottom:3rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem}
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+.section{padding:6rem 0}
+
+/* ─── NAVBAR ─── */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--nav-bg);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(213,184,147,0.12);
+  height:68px;
+  display:flex;align-items:center;
+  transition:background .4s,box-shadow .3s;
+}
+#navbar.scrolled{box-shadow:0 4px 28px rgba(0,0,0,0.22)}
+.nav-inner{width:100%;max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-logo{font-family:'Cinzel Decorative',cursive;font-size:1.5rem;color:#FF6B2B;letter-spacing:.08em;white-space:nowrap;transition:color .3s}
+.nav-logo span{color:#00C9B1}
+.nav-links{display:flex;align-items:center;gap:.25rem;flex-wrap:wrap}
+.nav-links a{font-size:.82rem;font-weight:500;color:rgba(255,255,255,0.75);padding:.45rem .8rem;border-radius:6px;letter-spacing:.04em;transition:background .25s,color .25s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,107,43,0.18);color:#FF6B2B}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+
+.theme-toggle{background:rgba(255,107,43,0.15);border:1px solid rgba(255,107,43,0.35);border-radius:50px;width:52px;height:26px;position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
+.theme-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FF6B2B;transition:transform .3s}
+[data-theme="dark"] .theme-toggle::after{transform:translateX(26px)}
+
+.btn-signin{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.06em;padding:.5rem 1.2rem;border-radius:6px;background:linear-gradient(135deg,#FF6B2B,#FF4D8D);color:#FFFFFF;border:none;cursor:pointer;transition:opacity .25s,transform .2s,box-shadow .25s;white-space:nowrap;box-shadow:0 4px 14px rgba(255,107,43,.4)}
+.btn-signin:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,107,43,.55)}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.4rem}
+.hamburger span{display:block;width:24px;height:2px;background:#D5B893;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:rgba(14,20,30,0.98);backdrop-filter:blur(14px);border-bottom:1px solid rgba(213,184,147,.12);padding:1rem 1.5rem 1.5rem;flex-direction:column;gap:.5rem}
+.mobile-menu a{font-size:.9rem;color:rgba(213,184,147,.82);padding:.7rem .5rem;border-bottom:1px solid rgba(213,184,147,.08);transition:color .2s}
+.mobile-menu a:hover{color:#D5B893}
+.mobile-menu.open{display:flex}
+
+/* ─── HERO BANNER ─── */
+#regions-hero{
+  min-height:46vh;
+  padding-top:68px;
+  background:
+    linear-gradient(135deg,rgba(18,20,58,.9) 0%,rgba(124,58,237,.6) 55%,rgba(0,201,177,.4) 100%),
+    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&auto=format&fit=crop') center/cover no-repeat;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+#regions-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.regions-hero-content{position:relative;z-index:1;padding:3rem 1.5rem;animation:fadeUp .9s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.regions-hero-content .hero-tagline{font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:#FFD93D;margin-bottom:1rem;opacity:.9}
+.regions-hero-content h1{font-family:'Cinzel Decorative',cursive;font-size:clamp(2.2rem,6vw,4.5rem);color:#fff;margin-bottom:.6rem;line-height:1.1}
+.regions-hero-content h1 span{color:#00C9B1;text-shadow:0 0 30px rgba(0,201,177,.7)}
+.regions-hero-content p{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.4rem);color:rgba(255,255,255,.7);font-style:italic;margin-bottom:2.5rem}
+.btn-browse-regions{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;
+  letter-spacing:.08em;padding:1rem 2.4rem;
+  border-radius:50px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  color:#FFFFFF;
+  transition:transform .2s,box-shadow .25s,opacity .2s;
+  box-shadow:0 8px 28px rgba(255,107,43,.55);
+  position:relative;overflow:hidden;
+}
+.btn-browse-regions::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#7C3AED,#00C9B1);opacity:0;transition:opacity .3s}
+.btn-browse-regions:hover::before{opacity:1}
+.btn-browse-regions:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 38px rgba(124,58,237,.5)}
+.btn-browse-regions span{position:relative;z-index:1}
+
+/* Floating chips */
+.floating-chips{
+  display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;
+  animation:fadeUp 1s ease .3s both;
+}
+.chip{
+  font-size:.75rem;font-weight:600;
+  padding:.35rem .9rem;border-radius:50px;
+  background:rgba(255,255,255,.1);
+  color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(6px);
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:background .25s,color .25s,transform .2s,border-color .25s;
+}
+.chip:hover{background:rgba(255,107,43,.3);color:#fff;border-color:rgba(255,107,43,.6);transform:translateY(-2px)}
+
+/* ─── REGIONS GRID SECTION ─── */
+#regions-section{background:var(--bg);padding:6rem 0}
+.regions-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.8rem;
+}
+.region-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 6px 24px var(--shadow);
+  transition:transform .35s,box-shadow .35s;
+  cursor:pointer;
+  position:relative;
+}
+.region-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 24px 56px var(--shadow)}
+.region-card-img{aspect-ratio:16/9;overflow:hidden;position:relative}
+.region-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.region-card:hover .region-card-img img{transform:scale(1.08)}
+.region-card-gradient{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(to top,rgba(18,20,58,.85),transparent);
+}
+.region-card-label{
+  position:absolute;bottom:.8rem;left:1rem;
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.75rem;color:#fff;letter-spacing:.06em;
+  text-shadow:0 2px 8px rgba(0,0,0,.5);
+}
+.region-count-badge{
+  position:absolute;top:.7rem;right:.7rem;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:.7rem;font-weight:700;
+  padding:.3rem .75rem;border-radius:20px;
+  letter-spacing:.08em;
+}
+.region-card-body{padding:1.2rem 1.4rem 1.4rem}
+.region-card-body h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.85rem;color:var(--text-primary);
+  margin-bottom:.4rem;letter-spacing:.04em;
+}
+.region-card-body p{font-size:.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:.9rem}
+.region-card-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.region-tag{font-size:.7rem;font-weight:600;padding:.25rem .7rem;border-radius:20px;background:var(--surface2);color:var(--text-muted);border:1px solid var(--border)}
+
+/* accent top border per card */
+.region-card:nth-child(1)::before,.region-card:nth-child(7)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B2B,#FFD93D);z-index:1}
+.region-card:nth-child(2)::before,.region-card:nth-child(8)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7C3AED,#00C9B1);z-index:1}
+.region-card:nth-child(3)::before,.region-card:nth-child(9)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF4D8D,#FF6B2B);z-index:1}
+.region-card:nth-child(4)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00C9B1,#7C3AED);z-index:1}
+.region-card:nth-child(5)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FFD93D,#FF4D8D);z-index:1}
+.region-card:nth-child(6)::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#A78BFA,#FF6B2B);z-index:1}
+
+/* ─── REGION POPUP MODAL ─── */
+.region-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(8,9,25,.85);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;
+  padding:1rem;
+}
+.region-overlay.open{opacity:1;pointer-events:all}
+.region-modal{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:28px;
+  width:min(900px,96vw);
+  max-height:88vh;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1px rgba(124,58,237,.12);
+  transform:scale(.9) translateY(24px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.region-overlay.open .region-modal{transform:scale(1) translateY(0)}
+
+/* modal top accent line */
+.region-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B2B,#7C3AED,#00C9B1,#FF4D8D);z-index:2}
+
+.modal-header{
+  padding:1.8rem 2rem 1.2rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+  flex-shrink:0;
+}
+.modal-header-left{}
+.modal-header-left h2{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.1rem;
+  background:linear-gradient(135deg,#FF6B2B,#7C3AED);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:.05em;margin-bottom:.25rem;
+}
+.modal-header-left p{color:var(--text-muted);font-size:.82rem}
+
+.modal-close-btn{
+  background:none;border:1px solid var(--border);
+  border-radius:10px;width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--text-muted);cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;flex-shrink:0;
+}
+.modal-close-btn:hover{background:rgba(255,107,43,.12);color:#FF6B2B;border-color:rgba(255,107,43,.35)}
+
+/* Search bar */
+.modal-search-wrap{
+  padding:1rem 2rem;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.modal-search{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:.7rem 1rem;
+  transition:border-color .25s,box-shadow .25s;
+}
+.modal-search:focus-within{border-color:#FF6B2B;box-shadow:0 0 0 3px rgba(255,107,43,.1)}
+.modal-search span{font-size:1.1rem;flex-shrink:0;opacity:.6}
+.modal-search input{
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;
+  color:var(--text-body);
+}
+.modal-search input::placeholder{color:var(--text-muted)}
+.modal-search-clear{
+  background:none;border:none;cursor:pointer;
+  color:var(--text-muted);font-size:.9rem;padding:.2rem;
+  border-radius:6px;
+  transition:color .2s,background .2s;display:none;
+}
+.modal-search-clear:hover{color:#FF6B2B;background:rgba(255,107,43,.1)}
+.modal-search-clear.visible{display:block}
+
+.modal-body{
+  flex:1;overflow-y:auto;
+  padding:1.5rem 2rem 2rem;
+}
+.modal-body::-webkit-scrollbar{width:5px}
+.modal-body::-webkit-scrollbar-track{background:transparent}
+.modal-body::-webkit-scrollbar-thumb{background:rgba(255,107,43,.3);border-radius:99px}
+
+/* ─── REGION SELECTOR (inside modal) ─── */
+.modal-region-selector{
+  display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.8rem;
+}
+.modal-region-btn{
+  font-family:'DM Sans',sans-serif;
+  font-size:.8rem;font-weight:600;
+  letter-spacing:.06em;
+  padding:.5rem 1.1rem;
+  border-radius:50px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text-body);
+  cursor:pointer;
+  transition:background .25s,color .25s,border-color .25s,transform .2s,box-shadow .2s;
+  display:flex;align-items:center;gap:.4rem;
+}
+.modal-region-btn:hover{background:rgba(255,107,43,.1);border-color:rgba(255,107,43,.4);color:#FF6B2B;transform:translateY(-2px)}
+.modal-region-btn.active{
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  color:#fff;border-color:transparent;
+  box-shadow:0 6px 18px rgba(255,107,43,.4);
+  transform:translateY(-2px);
+}
+
+/* ─── PLACES RESULTS ─── */
+.places-results-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem;
+}
+.places-results-header h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.9rem;color:var(--text-primary);letter-spacing:.04em;
+}
+.places-count-badge{
+  font-size:.75rem;font-weight:600;
+  padding:.3rem .8rem;border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,107,43,.15),rgba(124,58,237,.15));
+  color:var(--text-muted);
+  border:1px solid var(--border);
+}
+
+.places-results-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1.2rem;
+}
+.place-result-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 4px 16px var(--shadow);
+  transition:transform .3s,box-shadow .3s;
+  cursor:pointer;
+  animation:popIn .4s ease both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.place-result-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 16px 40px var(--shadow)}
+
+.place-result-img{aspect-ratio:4/3;background:linear-gradient(135deg,#1E2150,#2D1F5E);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.place-result-img .place-emoji{font-size:2.8rem;z-index:1;position:relative;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));transition:transform .3s}
+.place-result-card:hover .place-result-img .place-emoji{transform:scale(1.15) rotate(-5deg)}
+.place-result-img-bg{position:absolute;inset:0;opacity:.4}
+.place-result-img-bg.orange{background:linear-gradient(135deg,#FF6B2B,#FFD93D)}
+.place-result-img-bg.teal{background:linear-gradient(135deg,#00C9B1,#7C3AED)}
+.place-result-img-bg.violet{background:linear-gradient(135deg,#7C3AED,#FF4D8D)}
+.place-result-img-bg.pink{background:linear-gradient(135deg,#FF4D8D,#FF6B2B)}
+.place-result-img-bg.yellow{background:linear-gradient(135deg,#FFD93D,#00C9B1)}
+.place-result-img-bg.blue{background:linear-gradient(135deg,#3B82F6,#7C3AED)}
+
+.place-type-badge{
+  position:absolute;top:.6rem;left:.6rem;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(6px);
+  color:#fff;font-size:.65rem;font-weight:700;
+  padding:.25rem .65rem;border-radius:20px;letter-spacing:.08em;
+  border:1px solid rgba(255,255,255,.15);
+}
+.place-result-body{padding:1rem}
+.place-result-body h4{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.72rem;color:var(--text-primary);
+  margin-bottom:.35rem;letter-spacing:.04em;
+  line-height:1.4;
+}
+.place-result-body p{font-size:.78rem;color:var(--text-muted);line-height:1.55;margin-bottom:.65rem}
+.place-result-meta{display:flex;align-items:center;justify-content:space-between}
+.place-stars{font-size:.8rem}
+.place-distance{font-size:.72rem;color:var(--text-muted);background:var(--surface2);padding:.2rem .55rem;border-radius:10px}
+
+/* No results */
+.no-results{
+  grid-column:1/-1;
+  text-align:center;
+  padding:3rem 1rem;
+  color:var(--text-muted);
+}
+.no-results span{font-size:3rem;display:block;margin-bottom:1rem;opacity:.5}
+.no-results p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem}
+
+/* ─── FOOTER ─── */
+#footer{background:var(--footer-bg);padding:3rem 0 2rem;position:relative;overflow:hidden}
+#footer::before{content:'';position:absolute;top:-120px;right:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,43,.08),transparent 70%);pointer-events:none}
+.footer-bottom{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-copy{color:rgba(255,255,255,.25);font-size:.8rem;letter-spacing:.06em}
+
+/* ─── SIGN IN MODAL ─── */
+.modal-overlay-auth{position:fixed;inset:0;z-index:3000;background:rgba(10,10,30,.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.modal-overlay-auth.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--surface);border:1px solid rgba(255,107,43,.2);border-radius:24px;padding:2.5rem;width:min(440px,92vw);box-shadow:0 32px 80px rgba(0,0,0,.5);transform:scale(.92) translateY(20px);transition:transform .4s cubic-bezier(.22,1,.36,1);position:relative}
+.modal-overlay-auth.open .modal-box{transform:scale(1) translateY(0)}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;color:var(--text-muted);cursor:pointer;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+.modal-close:hover{background:rgba(255,107,43,.1);color:#FF6B2B}
+.modal-logo{font-family:'Cinzel Decorative',cursive;font-size:1.5rem;background:linear-gradient(135deg,#FF6B2B,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.25rem;letter-spacing:.06em}
+.modal-sub{color:var(--text-muted);font-size:.88rem;margin-bottom:2rem}
+.modal-tabs{display:flex;margin-bottom:2rem;border-radius:12px;overflow:hidden;border:1px solid var(--border);padding:4px;gap:4px;background:var(--surface2)}
+.modal-tab{flex:1;padding:.65rem;text-align:center;font-size:.88rem;font-weight:600;cursor:pointer;background:transparent;border:none;border-radius:9px;color:var(--text-muted);transition:background .2s,color .2s}
+.modal-tab.active{background:linear-gradient(135deg,#FF6B2B,#FF4D8D);color:#fff;box-shadow:0 4px 12px rgba(255,107,43,.3)}
+.modal-form{display:none}
+.modal-form.active{display:block}
+.modal-group{margin-bottom:1.1rem}
+.modal-group label{display:block;font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.08em;text-transform:uppercase}
+.modal-group input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text-body);outline:none;transition:border-color .25s,box-shadow .25s}
+.modal-group input:focus{border-color:#FF6B2B;box-shadow:0 0 0 3px rgba(255,107,43,.1)}
+.btn-modal-submit{width:100%;margin-top:.5rem;background:linear-gradient(135deg,#FF6B2B,#7C3AED);color:#fff;border:none;border-radius:12px;padding:.9rem;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:opacity .25s,transform .2s;box-shadow:0 6px 22px rgba(255,107,43,.35)}
+.btn-modal-submit:hover{opacity:.88;transform:translateY(-1px)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  .region-modal{width:min(720px,96vw)}
+  .modal-header,.modal-search-wrap,.modal-body{padding-left:1.4rem;padding-right:1.4rem}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .region-modal{border-radius:20px;max-height:92vh}
+  .modal-header{padding:1.2rem 1.2rem .9rem}
+  .modal-search-wrap{padding:.8rem 1.2rem}
+  .modal-body{padding:1rem 1.2rem 1.5rem}
+  .places-results-grid{grid-template-columns:1fr 1fr}
+  .section{padding:4rem 0}
+}
+@media(max-width:420px){
+  .places-results-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo font-display">Tour<span>Go</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#what-it-is">What TourGo Is</a></li>
+     <li><a href="index.html#how-it-works">How TourGo Works</a></li>
+      <li><a href="place.html">Places</a></li>
+      <!-- <li><a href="#">Hotels &amp; Restaurants</a></li> -->
+      <li><a href="regions.html" class="active">Regions</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+      <button class="btn-signin" id="openModal">Sign In / Sign Up</button>
+      <button class="hamburger" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#what-it-is" onclick="closeMobile()">What TourGo Is</a>
+  <a href="index.html#how-it-works" onclick="closeMobile()">How TourGo Works</a>
+  <a href="place.html" onclick="closeMobile()">Places</a>
+  <!-- <a href="#" onclick="closeMobile()">Hotels &amp; Restaurants</a> -->
+  <a href="regions.html" onclick="closeMobile()">Regions</a>
+</div>
+
+<!-- ─── HERO BANNER ─── -->
+<section id="regions-hero">
+  <div class="regions-hero-content">
+    <p class="hero-tagline">✦ Explore by Destination</p>
+    <h1 class="font-display">Explore <span>Regions</span></h1>
+    <p class="font-serif">Choose your region and uncover its hidden treasures</p>
+    <button class="btn-browse-regions" id="openRegionModal">
+      <span>🗺️</span>
+      <span>Browse All Regions</span>
+    </button>
+    <div class="floating-chips">
+      <span class="chip" onclick="openModalWithRegion('Kakinada')">📍 Kakinada</span>
+      <span class="chip" onclick="openModalWithRegion('Vizag')">📍 Vizag</span>
+      <span class="chip" onclick="openModalWithRegion('Rajamahendravaram')">📍 Rajamahendravaram</span>
+      <span class="chip" onclick="openModalWithRegion('Samalkota')">📍 Samalkota</span>
+      <span class="chip" onclick="openModalWithRegion('Annavaram')">📍 Annavaram</span>
+      <span class="chip" onclick="openModalWithRegion('Pitapuram')">📍 Pitapuram</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REGIONS GRID ─── -->
+<section id="regions-section">
+  <div class="container">
+    <h2 class="section-title">All Regions</h2>
+    <p class="section-sub">Curated destinations across Andhra Pradesh & beyond</p>
+    <div class="regions-grid" id="regionsGrid"></div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer id="footer">
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 TourGo. All rights reserved.</p>
+    <p class="footer-copy">Made with ♥ for Explorers</p>
+  </div>
+</footer>
+
+<!-- ─── REGION POPUP MODAL ─── -->
+<div class="region-overlay" id="regionOverlay">
+  <div class="region-modal" id="regionModal">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <h2>Explore Regions</h2>
+        <p id="modalHeaderSub">Select a region to discover its best places</p>
+      </div>
+      <button class="modal-close-btn" id="closeRegionModal">✕</button>
+    </div>
+    <div class="modal-search-wrap">
+      <div class="modal-search">
+        <span>🔍</span>
+        <input type="text" id="regionSearchInput" placeholder="Search places, regions…"/>
+        <button class="modal-search-clear" id="searchClearBtn">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <!-- Region buttons -->
+      <div class="modal-region-selector" id="regionSelector"></div>
+      <!-- Places results -->
+      <div class="places-results-header">
+        <h3 id="resultsTitle">All Places</h3>
+        <span class="places-count-badge" id="resultsCount">0 places</span>
+      </div>
+      <div class="places-results-grid" id="placesGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SIGN IN MODAL ─── -->
+<div class="modal-overlay-auth" id="authModalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeAuthModal">✕</button>
+    <div class="modal-logo font-display">TourGo</div>
+    <p class="modal-sub">Welcome back, explorer. Let's plan your next trip.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="signin">Sign In</button>
+      <button class="modal-tab" data-tab="signup">Sign Up</button>
+    </div>
+    <div class="modal-form active" id="signinForm">
+      <div class="modal-group"><label>Email</label><input type="email" placeholder="you@email.com" id="signinEmail"/></div>
+      <div class="modal-group"><label>Password</label><input type="password" placeholder="••••••••" id="signinPass"/></div>
+      <button class="btn-modal-submit" onclick="handleSignIn()">Sign In</button>
+    </div>
+    <div class="modal-form" id="signupForm">
+      <div class="modal-group"><label>Full Name</label><input type="text" placeholder="Your name"/></div>
+      <div class="modal-group"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
+      <div class="modal-group"><label>Password</label><input type="password" placeholder="Create a strong password"/></div>
+      <button class="btn-modal-submit" onclick="handleSignUp()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+
+// Places sourced exactly from place.html
+const REGIONS = [
+  {
+    id: 'kakinada',
+    name: 'Kakinada',
+    emoji: '🌊',
+    description: 'Port city with pristine beaches, pilgrimage temples, top hotels & entertainment zones.',
+    tags: ['Beaches', 'Temples', 'Resorts', 'Entertainment'],
+    color: 'orange',
+    img: 'kakinada.jpeg',
+    places: [
+      // Beaches
+      { name: 'Kakinada Beach', type: 'BEACH', emoji: '🏖️', desc: 'Scenic beach along the Bay of Bengal. Popular sunrise & evening walk spot.', stars: '★★★★☆', dist: '15 km from Kakinada', color: 'teal', link: 'pic9.html', img: 'T7.jpeg' },
+      { name: 'Kothapalli Beach', type: 'BEACH', emoji: '🌅', desc: 'Serene beach getaway with calm waters and scenic coastal views.', stars: '★★★★☆', dist: '25 km from Kakinada', color: 'orange', link: 'pic10.html', img: 'T8.jpeg' },
+      { name: 'Kakinada Outskirts Beach', type: 'BEACH', emoji: '🌊', desc: 'A quiet beach on the Kakinada outskirts, perfect for peaceful getaways.', stars: '★★★☆☆', dist: '20 km from Kakinada', color: 'teal', link: 'pic11.HTML', img: 'T9.jpeg' },
+      { name: 'Vakalapudi Beach', type: 'BEACH', emoji: '🐚', desc: 'A calm fishing-village beach known for stunning sunrise views.', stars: '★★★★☆', dist: 'Near Kakinada', color: 'pink', link: 'pic15.html', img: 'T13.jpeg' },
+      // Temples
+      { name: 'Mamidada Temple', type: 'TEMPLE', emoji: '🛕', desc: 'Revered temple in Mamidada, a popular pilgrimage destination near Kakinada.', stars: '★★★★☆', dist: '20 km from Kakinada', color: 'yellow', link: 'pic3.html', img: 'T1.jpeg' },
+      { name: 'Tholi Tirupati Temple', type: 'TEMPLE', emoji: '🙏', desc: 'Ancient Vaishnava shrine located 27 km north of Kakinada, drawing devotees year-round.', stars: '★★★★★', dist: '27 km north of Kakinada', color: 'violet', link: 'pic6.html', img: 'T4.jpeg' },
+      // Resorts / Hotels
+      { name: 'Paradigm Sarovar Portico', type: 'RESORT', emoji: '🏨', desc: 'Modern 4-star hotel in Kakinada with stylish rooms & contemporary amenities.', stars: '★★★★★', dist: '1.7 km from Kakinada', color: 'violet', link: 'pic18.html', img: 'T16.jpeg' },
+      { name: 'Grand KKD by GRT Hotels', type: 'RESORT', emoji: '🏩', desc: 'Premium hotel offering top-tier comfort, dining & business facilities in Kakinada.', stars: '★★★★★', dist: '3 km from Kakinada', color: 'blue', link: 'pic17.html', img: 'T15.jpeg' },
+      // Wildlife & Adventure
+      { name: 'Wildlife – Kakinada Outskirts', type: 'WILDLIFE', emoji: '🦋', desc: 'Natural wildlife zone on the Kakinada outskirts with diverse flora and fauna.', stars: '★★★☆☆', dist: '20 km from Kakinada', color: 'teal', link: 'pic14.html', img: 'T12.jpeg' },
+      { name: 'Adventure – Kakinada', type: 'ADVENTURE', emoji: '🏕️', desc: 'Outdoor adventure spot near Kakinada offering recreational activities.', stars: '★★★★☆', dist: 'Near Kakinada', color: 'orange', link: 'pic16.html', img: 'T14.jpeg' },
+      // Games & Entertainment
+      { name: 'Entertainment Zone – Kakinada', type: 'ENTERTAINMENT', emoji: '🎡', desc: 'Fun recreational zone in Kakinada with games, rides & family entertainment.', stars: '★★★★☆', dist: 'Kakinada', color: 'pink', link: 'pic12.html', img: 'T10.jpeg' },
+      { name: 'Go Karting – Kakinada', type: 'ENTERTAINMENT', emoji: '🏎️', desc: 'Thrilling go-karting track — a fun adventure activity available near Kakinada.', stars: '★★★★★', dist: 'Kakinada', color: 'yellow', link: 'pic13.html', img: 'T11.jpeg' },
+    ]
+  },
+  {
+    id: 'vizag',
+    name: 'Vizag',
+    emoji: '⛵',
+    description: 'Jewel of the East Coast — mountains, beaches, wildlife & iconic landmarks.',
+    tags: ['Beaches', 'Wildlife', 'Landmark'],
+    color: 'teal',
+    img: 'vizag.jpeg',
+    places: [
+      { name: "Dolphin's Nose", type: 'WILDLIFE', emoji: '🗿', desc: 'Iconic rocky headland 21.6 km from Vizag offering sweeping panoramic coastal views.', stars: '★★★★★', dist: '21.6 km from Vizag', color: 'teal', link: 'pic19.html', img: 'T17.jpeg' },
+      { name: 'Kambalakonda Wildlife Sanctuary', type: 'WILDLIFE', emoji: '🐆', desc: 'Dense forest sanctuary home to leopards, deer & 170+ bird species, just 7.1 km from Vizag.', stars: '★★★★☆', dist: '7.1 km from Vizag', color: 'yellow', link: 'pic20.html', img: 'T18.jpeg' },
+      { name: 'Vizag Beach', type: 'BEACH', emoji: '🌊', desc: 'Vibrant beach promenade in Vizag with street food, sculptures & evening crowds.', stars: '★★★★☆', dist: 'Vizag', color: 'orange', link: 'pic21.html', img: 'T19.jpeg' },
+    ]
+  },
+  {
+    id: 'samalkota',
+    name: 'Samalkota',
+    emoji: '🛕',
+    description: 'Sacred temple town just 12 km from Kakinada, famous for ancient Pancharama shrines.',
+    tags: ['Temples', 'Pilgrimage', 'Heritage'],
+    color: 'pink',
+    img: 'samalkota.jpeg',
+    places: [
+      { name: 'Samalkota Temple', type: 'TEMPLE', emoji: '🛕', desc: 'Ancient Shiva temple at Samalkota, one of the sacred Pancharama Kshetras of Andhra Pradesh.', stars: '★★★★★', dist: '12 km from Kakinada', color: 'orange', link: 'pic8.html', img: 'T6.jpeg' },
+    ]
+  },
+  {
+    id: 'annavaram',
+    name: 'Annavaram',
+    emoji: '⛪',
+    description: 'Hilltop pilgrimage town, home to the renowned Satyanarayana Swamy Temple.',
+    tags: ['Temple', 'Hill', 'Pilgrimage'],
+    color: 'yellow',
+    img: 'annavaram.jpeg',
+    places: [
+      { name: 'Satya Narayana Swamy Temple', type: 'TEMPLE', emoji: '🕌', desc: 'Magnificent hilltop temple on Ratnagiri Hill — one of the most visited pilgrimage centres in Andhra Pradesh.', stars: '★★★★★', dist: 'Annavaram', color: 'orange', link: 'pic4.html', img: 'T2.jpeg' },
+    ]
+  },
+  {
+    id: 'pitapuram',
+    name: 'Pitapuram',
+    emoji: '🌺',
+    description: 'Historic town 56 km from Kakinada, famous for its ancient temples and spiritual heritage.',
+    tags: ['Temples', 'Heritage', 'Pilgrimage'],
+    color: 'violet',
+    img: 'pitapuram.jpeg',
+    places: [
+      { name: 'Pitapuram Temple', type: 'TEMPLE', emoji: '🛕', desc: 'Ancient, revered temple in Pitapuram — a major pilgrimage site in coastal Andhra Pradesh.', stars: '★★★★★', dist: '56 km from Kakinada', color: 'violet', link: 'pic5.HTML', img: 'T3.jpeg' },
+    ]
+  },
+  {
+    id: 'rajamahendravaram',
+    name: 'Rajamahendravaram',
+    emoji: '🌉',
+    description: 'Cultural capital on the Godavari — ancient temples, bridges & river life.',
+    tags: ['Temples', 'River', 'Culture'],
+    color: 'blue',
+    img: 'rjy.jpeg',
+    places: [
+      { name: 'Temple – Rajamahendravaram', type: 'TEMPLE', emoji: '🙏', desc: 'Sacred temple on the banks of the Godavari, attracting devotees from across the region.', stars: '★★★★☆', dist: '40 km from city', color: 'blue', link: 'pic7.html', img: 'T5.jpeg' },
+    ]
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let activeRegion = null;
+let searchQuery = '';
+let isLoggedIn = false, currentUser = '';
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+function init() {
+  renderRegionsGrid();
+  renderModalRegionButtons();
+  renderPlaces();
+
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 30));
+
+  // Theme
+  const root = document.documentElement;
+  const saved = localStorage.getItem('tourgo-theme') || 'light';
+  root.setAttribute('data-theme', saved);
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('tourgo-theme', next);
+  });
+
+  // Hamburger
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if(!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) mobileMenu.classList.remove('open');
+  });
+
+  // Region modal open/close
+  document.getElementById('openRegionModal').addEventListener('click', openRegionModal);
+  document.getElementById('closeRegionModal').addEventListener('click', closeRegionModal);
+  document.getElementById('regionOverlay').addEventListener('click', e => {
+    if(e.target === document.getElementById('regionOverlay')) closeRegionModal();
+  });
+
+  // Search
+  const searchInput = document.getElementById('regionSearchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim().toLowerCase();
+    clearBtn.classList.toggle('visible', searchQuery.length > 0);
+    renderPlaces();
+  });
+  clearBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    searchQuery = '';
+    clearBtn.classList.remove('visible');
+    renderPlaces();
+  });
+
+  // Auth modal
+  document.getElementById('openModal').addEventListener('click', () => {
+    if(isLoggedIn){ handleSignOut(); return; }
+    document.getElementById('authModalOverlay').classList.add('open');
+  });
+  document.getElementById('closeAuthModal').addEventListener('click', () => {
+    document.getElementById('authModalOverlay').classList.remove('open');
+  });
+  document.getElementById('authModalOverlay').addEventListener('click', e => {
+    if(e.target === document.getElementById('authModalOverlay'))
+      document.getElementById('authModalOverlay').classList.remove('open');
+  });
+  document.querySelectorAll('.modal-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.modal-form').forEach(f => f.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
+    });
+  });
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.region-card').forEach((el,i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity .6s ${i*0.08}s, transform .6s ${i*0.08}s`;
+    io.observe(el);
+  });
+}
+
+// ─── REGIONS GRID ────────────────────────────────────────────────────────────
+function renderRegionsGrid() {
+  const grid = document.getElementById('regionsGrid');
+  grid.innerHTML = REGIONS.map(r => `
+    <div class="region-card" onclick="openModalWithRegion('${r.name}')">
+      <div class="region-card-img">
+        <img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.style.display='none'"/>
+        <div class="region-card-gradient"></div>
+        <span class="region-card-label">${r.emoji} ${r.name}</span>
+        <span class="region-count-badge">${r.places.length} Places</span>
+      </div>
+      <div class="region-card-body">
+        <h3>${r.name}</h3>
+        <p>${r.description}</p>
+        <div class="region-card-tags">
+          ${r.tags.map(t => `<span class="region-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── MODAL REGION BUTTONS ────────────────────────────────────────────────────
+function renderModalRegionButtons() {
+  const sel = document.getElementById('regionSelector');
+  const allBtn = `<button class="modal-region-btn ${activeRegion === null ? 'active' : ''}" onclick="selectRegion(null)">🌏 All Regions</button>`;
+  const regionBtns = REGIONS.map(r =>
+    `<button class="modal-region-btn ${activeRegion === r.name ? 'active' : ''}" onclick="selectRegion('${r.name}')">${r.emoji} ${r.name}</button>`
+  ).join('');
+  sel.innerHTML = allBtn + regionBtns;
+}
+
+// ─── SELECT REGION ───────────────────────────────────────────────────────────
+function selectRegion(name) {
+  activeRegion = name;
+  document.getElementById('regionSearchInput').value = '';
+  searchQuery = '';
+  document.getElementById('searchClearBtn').classList.remove('visible');
+  renderModalRegionButtons();
+  renderPlaces();
+  // Update subtitle
+  const sub = document.getElementById('modalHeaderSub');
+  sub.textContent = name ? `Showing places in ${name}` : 'Select a region to discover its best places';
+}
+
+// ─── RENDER PLACES ───────────────────────────────────────────────────────────
+function renderPlaces() {
+  const grid = document.getElementById('placesGrid');
+  const title = document.getElementById('resultsTitle');
+  const countBadge = document.getElementById('resultsCount');
+
+  let allPlaces = [];
+  if (activeRegion) {
+    const region = REGIONS.find(r => r.name === activeRegion);
+    allPlaces = region ? region.places.map(p => ({ ...p, region: region.name })) : [];
+  } else {
+    REGIONS.forEach(r => r.places.forEach(p => allPlaces.push({ ...p, region: r.name })));
+  }
+
+  // Filter by search
+  if (searchQuery) {
+    allPlaces = allPlaces.filter(p =>
+      p.name.toLowerCase().includes(searchQuery) ||
+      p.desc.toLowerCase().includes(searchQuery) ||
+      p.type.toLowerCase().includes(searchQuery) ||
+      p.region.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  title.textContent = activeRegion ? `Places in ${activeRegion}` : 'All Places';
+  countBadge.textContent = `${allPlaces.length} ${allPlaces.length === 1 ? 'place' : 'places'}`;
+
+  if (allPlaces.length === 0) {
+    grid.innerHTML = `
+      <div class="no-results">
+        <span>🔭</span>
+        <p>No places found${searchQuery ? ` for "${searchQuery}"` : ''}. Try a different search.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = allPlaces.map((p, i) => `
+    <a class="place-result-card" href="${p.link || '#'}" style="animation-delay:${i*0.06}s; text-decoration:none; display:block; color:inherit;">
+      <div class="place-result-img">
+        ${p.img
+          ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">`
+          : ''}
+        <div class="place-result-img-bg ${p.color}" style="opacity:${p.img ? '0.35' : '0.75'}"></div>
+        <span class="place-emoji">${p.emoji}</span>
+        <span class="place-type-badge">${p.type}</span>
+      </div>
+      <div class="place-result-body">
+        <h4>${p.name}</h4>
+        <p>${p.desc}</p>
+        <div class="place-result-meta">
+          <span class="place-stars">${p.stars}</span>
+          <span class="place-distance">📍 ${p.dist}</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+// ─── MODAL OPEN/CLOSE ─────────────────────────────────────────────────────────
+function openRegionModal() {
+  document.getElementById('regionOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeRegionModal() {
+  document.getElementById('regionOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openModalWithRegion(name) {
+  selectRegion(name);
+  openRegionModal();
+}
+window.openModalWithRegion = openModalWithRegion;
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+function handleSignIn() {
+  const email = document.getElementById('signinEmail').value.trim();
+  const pass = document.getElementById('signinPass').value.trim();
+  if(!email || !pass) return;
+  isLoggedIn = true;
+  currentUser = email.split('@')[0];
+  document.getElementById('authModalOverlay').classList.remove('open');
+  updateNavBtn();
+  showToast('Welcome back, ' + currentUser + '! ✈️');
+}
+function handleSignUp() {
+  isLoggedIn = true;
+  currentUser = 'Explorer';
+  document.getElementById('authModalOverlay').classList.remove('open');
+  updateNavBtn();
+  showToast('Account created! Ready to explore? 🌏');
+}
+function handleSignOut() {
+  isLoggedIn = false; currentUser = '';
+  updateNavBtn();
+  showToast('Signed out. Safe travels! 👋');
+}
+function updateNavBtn() {
+  const btn = document.getElementById('openModal');
+  btn.textContent = isLoggedIn ? 'Sign Out (' + currentUser + ')' : 'Sign In / Sign Up';
+  btn.style.background = isLoggedIn ? 'linear-gradient(135deg,#00C9B1,#7C3AED)' : '';
+}
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+window.handleSignIn = handleSignIn;
+window.handleSignUp = handleSignUp;
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    Object.assign(t.style, {
+      position:'fixed',bottom:'2rem',left:'50%',
+      transform:'translateX(-50%) translateY(20px)',
+      background:'linear-gradient(135deg,#FF6B2B,#FF4D8D)',color:'#fff',
+      padding:'.75rem 1.8rem',borderRadius:'50px',
+      fontFamily:"'DM Sans',sans-serif",fontSize:'.9rem',
+      fontWeight:'600',boxShadow:'0 8px 30px rgba(0,0,0,.3)',
+      zIndex:'4000',opacity:'0',transition:'all .35s',
+      whiteSpace:'nowrap',pointerEvents:'none'
+    });
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => { t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 3000);
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

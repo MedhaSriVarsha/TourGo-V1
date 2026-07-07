@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TourGo – A Perfect Tour Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── CSS VARIABLES ─── */
+:root {
+  --primary:     #FF6B2B;
+  --primary-dk:  #E5521A;
+  --secondary:   #00C9B1;
+  --secondary-dk:#00A896;
+  --accent:      #FFD93D;
+  --violet:      #7C3AED;
+  --violet-lt:   #A78BFA;
+  --pink:        #FF4D8D;
+  --bg:          #F0F7FF;
+  --surface:     #FFFFFF;
+  --surface2:    #E8F4FF;
+  --text-primary:#12143A;
+  --text-body:   #2D3561;
+  --text-muted:  #6B7280;
+  --border:      rgba(124,58,237,0.15);
+  --shadow:      rgba(124,58,237,0.12);
+  --nav-bg:      rgba(18,20,58,0.97);
+  --card-bg:     #FFFFFF;
+  --footer-bg:   #12143A;
+  --footer-text: #FFD93D;
+  --btn-primary-bg: #FF6B2B;
+  --btn-primary-text:#FFFFFF;
+  --coffee:      #FF6B2B;
+  --caput:       #7C3AED;
+  --tan:         #FFD93D;
+  --slate-gray:  #00C9B1;
+  --space-cadet: #12143A;
+}
+[data-theme="dark"] {
+  --bg:          #0D0F2B;
+  --surface:     #161840;
+  --surface2:    #1E2150;
+  --text-primary:#FFD93D;
+  --text-body:   #C4CAFF;
+  --text-muted:  #8B93D0;
+  --border:      rgba(255,107,43,0.2);
+  --shadow:      rgba(0,0,0,0.5);
+  --nav-bg:      rgba(8,9,25,0.98);
+  --card-bg:     #161840;
+  --footer-bg:   #08091A;
+  --footer-text: #FFD93D;
+  --btn-primary-bg:#FF6B2B;
+  --btn-primary-text:#FFFFFF;
+  --coffee:      #FF6B2B;
+  --caput:       #7C3AED;
+  --tan:         #FFD93D;
+  --slate-gray:  #00C9B1;
+  --space-cadet: #FFD93D;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text-body);
+  transition:background .4s,color .4s;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--slate-gray);border-radius:99px}
+
+.font-display{font-family:'Cinzel Decorative',cursive}
+.font-serif{font-family:'Cormorant Garamond',serif}
+
+.section-title{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(1.4rem,3vw,2.2rem);
+  color:var(--text-primary);
+  text-align:center;
+  margin-bottom:.5rem;
+  letter-spacing:.04em;
+  background:linear-gradient(135deg,#FF6B2B,#7C3AED);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+[data-theme="dark"] .section-title{
+  background:linear-gradient(135deg,#FF6B2B,#A78BFA);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-sub{
+  text-align:center;
+  color:var(--text-muted);
+  margin-bottom:3rem;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:1.25rem;
+}
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+.section{padding:6rem 0}
+
+/* ─── NAVBAR ─── */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--nav-bg);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(213,184,147,0.12);
+  height:68px;
+  display:flex;align-items:center;
+  transition:background .4s,box-shadow .3s;
+}
+#navbar.scrolled{box-shadow:0 4px 28px rgba(0,0,0,0.22)}
+.nav-inner{
+  width:100%;max-width:1200px;margin:0 auto;
+  padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
+}
+.nav-logo{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.5rem;
+  color:#FF6B2B;
+  letter-spacing:.08em;
+  white-space:nowrap;
+  transition:color .3s;
+}
+.nav-logo span{color:#00C9B1}
+.nav-links{
+  display:flex;align-items:center;gap:.25rem;flex-wrap:wrap;
+}
+.nav-links a{
+  font-size:.82rem;font-weight:500;
+  color:rgba(255,255,255,0.75);
+  padding:.45rem .8rem;
+  border-radius:6px;
+  letter-spacing:.04em;
+  transition:background .25s,color .25s;
+  white-space:nowrap;
+}
+.nav-links a:hover{background:rgba(255,107,43,0.18);color:#FF6B2B}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+
+.theme-toggle{
+  background:rgba(255,107,43,0.15);
+  border:1px solid rgba(255,107,43,0.35);
+  border-radius:50px;
+  width:52px;height:26px;
+  position:relative;cursor:pointer;
+  transition:background .3s;
+  flex-shrink:0;
+}
+.theme-toggle::after{
+  content:'';
+  position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#FF6B2B;
+  transition:transform .3s;
+}
+[data-theme="dark"] .theme-toggle::after{transform:translateX(26px)}
+
+.btn-signin{
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;font-weight:600;
+  letter-spacing:.06em;
+  padding:.5rem 1.2rem;
+  border-radius:6px;
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  color:#FFFFFF;
+  border:none;cursor:pointer;
+  transition:opacity .25s,transform .2s,box-shadow .25s;
+  white-space:nowrap;
+  box-shadow:0 4px 14px rgba(255,107,43,.4);
+}
+.btn-signin:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,107,43,.55)}
+
+.hamburger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:.4rem;
+}
+.hamburger span{display:block;width:24px;height:2px;background:#D5B893;transition:.3s}
+
+.mobile-menu{
+  display:none;position:fixed;top:68px;left:0;right:0;z-index:999;
+  background:rgba(14,20,30,0.98);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(213,184,147,.12);
+  padding:1rem 1.5rem 1.5rem;
+  flex-direction:column;gap:.5rem;
+  transition:opacity .3s;
+}
+.mobile-menu a{
+  font-size:.9rem;color:rgba(213,184,147,.82);
+  padding:.7rem .5rem;border-bottom:1px solid rgba(213,184,147,.08);
+  transition:color .2s;
+}
+.mobile-menu a:hover{color:#D5B893}
+.mobile-menu.open{display:flex}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  padding-top:68px;
+  background:
+    linear-gradient(135deg,rgba(18,20,58,.88) 0%,rgba(124,58,237,.55) 60%,rgba(255,107,43,.45) 100%),
+    url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&auto=format&fit=crop') center/cover no-repeat;
+  display:flex;align-items:center;
+}
+.hero-card{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(18px);
+  border-radius:24px;
+  padding:clamp(2rem,5vw,4rem);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+  align-items:center;
+  box-shadow:0 32px 80px rgba(0,0,0,.35);
+  animation:fadeUp .9s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-tagline{
+  font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;
+  color:#FFD93D;margin-bottom:1rem;opacity:.9;
+}
+.hero-title{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(2.5rem,6vw,5rem);
+  line-height:1;
+  color:#FFFFFF;
+  margin-bottom:.5rem;
+  text-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.hero-title span{
+  color:#FF6B2B;
+  text-shadow:0 0 30px rgba(255,107,43,.6);
+}
+.hero-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.1rem,2.5vw,1.6rem);
+  color:rgba(0,201,177,.9);
+  font-style:italic;
+  margin-bottom:2rem;
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.btn-primary{
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.06em;padding:.85rem 2rem;
+  border-radius:50px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  color:#FFFFFF;
+  transition:transform .2s,box-shadow .25s,opacity .2s;
+  box-shadow:0 6px 22px rgba(255,107,43,.5);
+}
+.btn-primary:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 32px rgba(255,107,43,.6);opacity:.92}
+.btn-rating{
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;
+  letter-spacing:.06em;padding:.85rem 2rem;
+  border-radius:50px;border:2px solid rgba(255,217,61,.6);cursor:pointer;
+  background:rgba(255,217,61,.12);color:#FFD93D;
+  transition:background .25s,transform .2s,border-color .25s;
+}
+.btn-rating:hover{background:rgba(255,217,61,.22);transform:translateY(-3px);border-color:#FFD93D}
+.hero-search{
+  display:flex;gap:.6rem;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:50px;
+  padding:.5rem .5rem .5rem 1.2rem;
+  backdrop-filter:blur(8px);
+}
+.hero-search input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.92rem;
+  padding:.3rem 0;
+}
+.hero-search input::placeholder{color:rgba(255,255,255,.45)}
+.hero-search button{
+  background:linear-gradient(135deg,#7C3AED,#FF4D8D);
+  color:#fff;border:none;
+  border-radius:50px;padding:.6rem 1.4rem;
+  font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;
+  cursor:pointer;transition:opacity .25s,transform .2s;
+  white-space:nowrap;box-shadow:0 4px 14px rgba(124,58,237,.4);
+}
+.hero-search button:hover{opacity:.88;transform:scale(1.04)}
+
+.hero-right{position:relative}
+.hero-img-wrap{
+  border-radius:20px;overflow:hidden;
+  border:2px solid rgba(255,107,43,.3);
+  box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(0,201,177,.15);
+  aspect-ratio:4/3;
+}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.hero-img-wrap:hover img{transform:scale(1.04)}
+.hero-badge{
+  position:absolute;bottom:-16px;right:-16px;
+  background:linear-gradient(135deg,#7C3AED,#FF4D8D);
+  border:2px solid rgba(255,255,255,.2);
+  border-radius:14px;padding:1rem 1.4rem;
+  box-shadow:0 8px 30px rgba(124,58,237,.5);
+}
+.hero-badge p{color:rgba(255,255,255,.8);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem}
+.hero-badge strong{color:#FFD93D;font-size:1.4rem;font-family:'Cinzel Decorative',cursive}
+
+/* ─── WHAT IT IS ─── */
+#what-it-is{
+  background:linear-gradient(135deg,#F0F7FF 0%,#EAF0FF 100%);
+}
+[data-theme="dark"] #what-it-is{background:linear-gradient(135deg,#0D0F2B,#161840)}
+.what-cards{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+  max-width:900px;margin:0 auto;
+}
+.what-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2.5rem 2rem;
+  box-shadow:0 8px 32px var(--shadow);
+  transition:transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.what-card:nth-child(1)::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#FF6B2B,#FFD93D);
+}
+.what-card:nth-child(2)::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#7C3AED,#00C9B1);
+}
+.what-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px var(--shadow)}
+.what-card-icon{
+  width:56px;height:56px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin-bottom:1.2rem;
+}
+.what-card:nth-child(1) .what-card-icon{background:linear-gradient(135deg,#FF6B2B,#FFD93D)}
+.what-card:nth-child(2) .what-card-icon{background:linear-gradient(135deg,#7C3AED,#00C9B1)}
+.what-card h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1rem;color:var(--text-primary);
+  margin-bottom:.8rem;letter-spacing:.04em;
+}
+.what-card p{color:var(--text-body);line-height:1.75;font-size:.95rem}
+
+/* ─── HOW IT WORKS ─── */
+#how-it-works{background:var(--bg)}
+.how-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;
+  align-items:center;max-width:1050px;margin:0 auto;
+}
+.how-visual{
+  background:linear-gradient(135deg,#7C3AED,#00C9B1);
+  border-radius:22px;
+  aspect-ratio:4/3;
+  align-items:center;justify-content:center;
+  box-shadow:0 16px 56px rgba(112,78,274,0.35);
+  position:relative;overflow:hidden;
+}
+.how-visual::after{
+  content:'🗺️';font-size:5rem;
+  animation:float 3s ease-in-out infinite;
+  position:relative;z-index:2;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.how-visual-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+}
+.how-visual-ring:nth-child(1){width:160px;height:160px}
+.how-visual-ring:nth-child(2){width:280px;height:280px;animation:spin 12s linear infinite}
+.how-visual-ring:nth-child(3){width:380px;height:380px;animation:spin 20s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.how-content h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.25rem;color:var(--text-primary);
+  margin-bottom:1.5rem;
+}
+.how-step{
+  display:flex;gap:1rem;margin-bottom:1.5rem;
+  align-items:flex-start;
+}
+.how-step:nth-child(2) .how-step-num{background:linear-gradient(135deg,#FF6B2B,#FF4D8D)}
+.how-step:nth-child(3) .how-step-num{background:linear-gradient(135deg,#7C3AED,#00C9B1)}
+.how-step-num{
+  min-width:38px;height:38px;border-radius:50%;
+  color:#FFFFFF;font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 4px 14px rgba(124,58,237,.35);
+  background:linear-gradient(135deg,#FF6B2B,#FFD93D);
+}
+.how-step p{color:var(--text-body);line-height:1.7;font-size:.95rem;padding-top:.4rem}
+.how-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;margin-left:52px}
+.tag{
+  font-size:.78rem;font-weight:600;
+  padding:.35rem .9rem;border-radius:50px;
+  background:var(--surface2);color:var(--text-muted);
+  border:1px solid var(--border);
+  transition:background .2s,color .2s,border-color .2s;
+  cursor:default;
+}
+.tag:hover{background:linear-gradient(135deg,#FF6B2B,#FF4D8D);color:#fff;border-color:transparent}
+
+/* ─── PLACES ─── */
+#places{background:linear-gradient(135deg,#EAF0FF 0%,#F5EEFF 100%)}
+[data-theme="dark"] #places{background:linear-gradient(135deg,#161840,#1a1550)}
+.places-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+}
+.place-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 6px 24px var(--shadow);
+  transition:transform .35s,box-shadow .35s;
+  cursor:pointer;
+}
+.place-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 24px 56px var(--shadow)}
+.place-img{
+  aspect-ratio:4/3;overflow:hidden;position:relative;
+}
+.place-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.place-card:hover .place-img img{transform:scale(1.1)}
+.place-badge{
+  position:absolute;top:.7rem;right:.7rem;
+  backdrop-filter:blur(6px);
+  color:#fff;font-size:.68rem;font-weight:700;
+  padding:.28rem .7rem;border-radius:20px;letter-spacing:.08em;
+}
+.place-card:nth-child(1) .place-badge{background:rgba(255,107,43,.9)}
+.place-card:nth-child(2) .place-badge{background:rgba(0,201,177,.9)}
+.place-card:nth-child(3) .place-badge{background:rgba(124,58,237,.9)}
+.place-card:nth-child(4) .place-badge{background:rgba(255,77,141,.9)}
+.place-info{padding:1.2rem}
+.place-info h4{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.78rem;color:var(--text-primary);
+  margin-bottom:.4rem;letter-spacing:.04em;
+}
+.place-info p{font-size:.82rem;color:var(--text-muted);line-height:1.6}
+.place-stars{font-size:.85rem;margin-top:.5rem}
+.place-card:nth-child(1) .place-stars{color:#FF6B2B}
+.place-card:nth-child(2) .place-stars{color:#00C9B1}
+.place-card:nth-child(3) .place-stars{color:#7C3AED}
+.place-card:nth-child(4) .place-stars{color:#FF4D8D}
+
+/* ─── SERVICES ─── */
+#services{background:var(--bg)}
+.service-item{
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;
+  align-items:center;max-width:1050px;margin:0 auto 4rem;
+}
+.service-item.reverse{direction:rtl}
+.service-item.reverse>*{direction:ltr}
+.service-visual{
+  border-radius:22px;overflow:hidden;
+  box-shadow:0 12px 44px var(--shadow);
+  aspect-ratio:16/10;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+  border:1px solid var(--border);
+}
+.service-item:nth-child(1) .service-visual{background:linear-gradient(135deg,#FF6B2B,#FFD93D)}
+.service-item:nth-child(2) .service-visual{background:linear-gradient(135deg,#7C3AED,#00C9B1)}
+.service-item:nth-child(3) .service-visual{background:linear-gradient(135deg,#FF4D8D,#FF6B2B)}
+.service-num{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.72rem;letter-spacing:.2em;
+  color:var(--primary);opacity:.7;margin-bottom:.5rem;
+}
+.service-text h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.15rem;color:var(--text-primary);
+  margin-bottom:1rem;letter-spacing:.04em;
+}
+.service-text p{color:var(--text-body);line-height:1.8;margin-bottom:1.2rem;font-size:.95rem}
+.service-link{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-weight:700;font-size:.88rem;
+  padding:.5rem 1.2rem;border-radius:50px;
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  color:#fff;
+  transition:opacity .25s,transform .2s,box-shadow .25s;
+  box-shadow:0 4px 16px rgba(255,107,43,.35);
+}
+.service-link:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,43,.45);gap:.9rem}
+.service-item:nth-child(2) .service-link{background:linear-gradient(135deg,#7C3AED,#00C9B1);box-shadow:0 4px 16px rgba(124,58,237,.35)}
+.service-item:nth-child(3) .service-link{background:linear-gradient(135deg,#FF4D8D,#7C3AED);box-shadow:0 4px 16px rgba(255,77,141,.35)}
+
+/* ─── COLLABORATIONS ─── */
+#collaborations{background:linear-gradient(135deg,#F5EEFF,#EAF0FF)}
+[data-theme="dark"] #collaborations{background:linear-gradient(135deg,#1a1550,#161840)}
+.collab-grid-row{display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem}
+.collab-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:16px;
+  width:clamp(130px,18vw,180px);
+  height:90px;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:.4rem;
+  box-shadow:0 4px 18px var(--shadow);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.collab-card::after{
+  content:'';position:absolute;inset:0;opacity:0;
+  background:linear-gradient(135deg,rgba(255,107,43,.08),rgba(124,58,237,.08));
+  transition:opacity .3s;
+}
+.collab-card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 16px 40px var(--shadow);border-color:var(--primary)}
+.collab-card:hover::after{opacity:1}
+.collab-icon{font-size:1.9rem;position:relative;z-index:1}
+.collab-name{font-size:.73rem;font-weight:700;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;position:relative;z-index:1}
+
+/* ─── FOOTER ─── */
+#footer{
+  background:var(--footer-bg);
+  padding:5rem 0 2rem;
+  position:relative;overflow:hidden;
+}
+#footer::before{
+  content:'';position:absolute;top:-120px;right:-120px;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,43,.08),transparent 70%);
+  pointer-events:none;
+}
+#footer::after{
+  content:'';position:absolute;bottom:-80px;left:-80px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);
+  pointer-events:none;
+}
+.footer-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  max-width:1100px;margin:0 auto;padding:0 1.5rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,107,43,.12);
+  position:relative;z-index:1;
+}
+.footer-feedback h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.1rem;color:#FF6B2B;
+  margin-bottom:.5rem;letter-spacing:.05em;
+}
+.footer-feedback p{color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.5rem}
+.form-group{margin-bottom:1rem}
+.form-group input,
+.form-group textarea{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,107,43,.18);
+  border-radius:10px;padding:.75rem 1rem;
+  color:rgba(255,255,255,.85);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  outline:none;transition:border-color .25s,background .25s;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder{color:rgba(255,255,255,.25)}
+.form-group input:focus,
+.form-group textarea:focus{
+  border-color:rgba(255,107,43,.5);
+  background:rgba(255,255,255,0.08);
+}
+.form-group textarea{height:100px;resize:vertical}
+.btn-submit{
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);color:#fff;border:none;
+  border-radius:50px;padding:.8rem 2.2rem;
+  font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.06em;cursor:pointer;
+  transition:opacity .25s,transform .2s,box-shadow .25s;
+  box-shadow:0 6px 20px rgba(255,107,43,.4);
+}
+.btn-submit:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,43,.5)}
+.footer-info h3{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.4rem;color:#FF6B2B;
+  margin-bottom:.25rem;letter-spacing:.08em;
+}
+.footer-tagline{
+  color:rgba(255,255,255,.35);font-size:.85rem;
+  margin-bottom:2rem;font-style:italic;
+}
+.footer-social{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:2rem}
+.social-btn{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.5rem 1rem;border-radius:50px;
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.6);font-size:.82rem;
+  background:rgba(255,255,255,0.04);
+  transition:background .25s,color .25s,border-color .25s,transform .2s;
+  cursor:pointer;
+}
+.social-btn:nth-child(1):hover{background:rgba(255,77,141,.15);color:#FF4D8D;border-color:rgba(255,77,141,.35);transform:translateY(-2px)}
+.social-btn:nth-child(2):hover{background:rgba(0,201,177,.15);color:#00C9B1;border-color:rgba(0,201,177,.35);transform:translateY(-2px)}
+.social-btn:nth-child(3):hover{background:rgba(255,107,43,.15);color:#FF6B2B;border-color:rgba(255,107,43,.35);transform:translateY(-2px)}
+.footer-contact li{
+  display:flex;align-items:flex-start;gap:.7rem;
+  margin-bottom:.75rem;color:rgba(255,255,255,.5);font-size:.88rem;
+}
+.footer-contact li span:first-child{font-size:1rem;flex-shrink:0;margin-top:2px}
+.footer-bottom{
+  max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  position:relative;z-index:1;
+}
+.footer-copy{color:rgba(255,255,255,.25);font-size:.8rem;letter-spacing:.06em}
+
+/* ─── SIGN IN MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(10,10,30,.8);
+  backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--surface);
+  border:1px solid rgba(255,107,43,.2);
+  border-radius:24px;
+  padding:2.5rem;
+  width:min(440px,92vw);
+  box-shadow:0 32px 80px rgba(0,0,0,.5),0 0 0 1px rgba(124,58,237,.1);
+  transform:scale(.92) translateY(20px);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0)}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:none;border:none;font-size:1.4rem;
+  color:var(--text-muted);cursor:pointer;
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s;
+}
+.modal-close:hover{background:rgba(255,107,43,.1);color:#FF6B2B}
+.modal-logo{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.5rem;
+  background:linear-gradient(135deg,#FF6B2B,#7C3AED);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.25rem;letter-spacing:.06em;
+}
+.modal-sub{color:var(--text-muted);font-size:.88rem;margin-bottom:2rem}
+.modal-tabs{display:flex;margin-bottom:2rem;border-radius:12px;overflow:hidden;border:1px solid var(--border);padding:4px;gap:4px;background:var(--surface2)}
+.modal-tab{
+  flex:1;padding:.65rem;text-align:center;
+  font-size:.88rem;font-weight:600;cursor:pointer;
+  background:transparent;border:none;border-radius:9px;
+  color:var(--text-muted);transition:background .2s,color .2s;
+}
+.modal-tab.active{background:linear-gradient(135deg,#FF6B2B,#FF4D8D);color:#fff;box-shadow:0 4px 12px rgba(255,107,43,.3)}
+.modal-form{display:none}
+.modal-form.active{display:block}
+.modal-group{margin-bottom:1.1rem}
+.modal-group label{
+  display:block;font-size:.78rem;font-weight:700;
+  color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.08em;text-transform:uppercase;
+}
+.modal-group input{
+  width:100%;background:var(--surface2);
+  border:1px solid var(--border);border-radius:10px;
+  padding:.75rem 1rem;font-family:'DM Sans',sans-serif;
+  font-size:.92rem;color:var(--text-body);outline:none;
+  transition:border-color .25s,box-shadow .25s;
+}
+.modal-group input:focus{border-color:#FF6B2B;box-shadow:0 0 0 3px rgba(255,107,43,.1)}
+.btn-modal-submit{
+  width:100%;margin-top:.5rem;
+  background:linear-gradient(135deg,#FF6B2B,#7C3AED);
+  color:#fff;border:none;border-radius:12px;
+  padding:.9rem;font-family:'DM Sans',sans-serif;
+  font-size:.95rem;font-weight:700;letter-spacing:.06em;
+  cursor:pointer;transition:opacity .25s,transform .2s;
+  box-shadow:0 6px 22px rgba(255,107,43,.35);
+}
+.btn-modal-submit:hover{opacity:.88;transform:translateY(-1px)}
+
+/* ─── AI TRIP PLANNER MODAL ─── */
+#plannerOverlay{
+  position:fixed;inset:0;z-index:3000;
+  background:rgba(8,8,30,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+#plannerOverlay.open{
+  display:flex;
+  animation:plannerFadeIn .35s ease both;
+}
+@keyframes plannerFadeIn{from{opacity:0}to{opacity:1}}
+
+.planner-bg-blob{
+  position:absolute;border-radius:50%;
+  pointer-events:none;
+}
+.planner-bg-blob.b1{
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(255,107,43,.18),transparent 70%);
+  top:-100px;right:-80px;
+}
+.planner-bg-blob.b2{
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(124,58,237,.18),transparent 70%);
+  bottom:-60px;left:-60px;
+}
+.planner-bg-blob.b3{
+  width:250px;height:250px;
+  background:radial-gradient(circle,rgba(0,201,177,.12),transparent 70%);
+  top:40%;left:45%;
+}
+
+.planner-box{
+  position:relative;
+  z-index:2;
+  width:min(740px,96vw);
+  max-height:90vh;
+  overflow-y:auto;
+  background:rgba(14,14,42,0.78);
+  border:1px solid rgba(255,107,43,.22);
+  border-radius:28px;
+  padding:clamp(1.8rem,5vw,3rem);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.6),
+    0 0 0 1px rgba(124,58,237,.12),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  animation:plannerBoxIn .45s cubic-bezier(.22,1,.36,1) both;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,107,43,.3) transparent;
+}
+.planner-box::-webkit-scrollbar{width:4px}
+.planner-box::-webkit-scrollbar-thumb{background:rgba(255,107,43,.3);border-radius:99px}
+@keyframes plannerBoxIn{
+  from{opacity:0;transform:scale(.88) translateY(32px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+.planner-close-btn{
+  position:absolute;top:1.2rem;right:1.3rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;width:36px;height:36px;
+  color:rgba(255,255,255,.55);font-size:1rem;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.planner-close-btn:hover{background:rgba(255,107,43,.18);color:#FF6B2B;border-color:rgba(255,107,43,.4)}
+
+.planner-ai-badge{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:rgba(0,201,177,.1);
+  border:1px solid rgba(0,201,177,.28);
+  color:#00C9B1;
+  font-size:.7rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  padding:.3rem .85rem;border-radius:50px;
+  margin-bottom:1rem;
+}
+.planner-ai-badge .pulse-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#00C9B1;
+  animation:pulseDot 1.6s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+.planner-heading{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(1.55rem,4vw,2.4rem);
+  color:#fff;
+  line-height:1.1;
+  margin-bottom:.6rem;
+  letter-spacing:.03em;
+}
+.planner-heading span{
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D,#7C3AED);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.planner-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  color:rgba(255,255,255,.42);
+  font-style:italic;
+  margin-bottom:2rem;
+  line-height:1.6;
+}
+
+.planner-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,107,43,.25),rgba(124,58,237,.2),transparent);
+  margin-bottom:1.8rem;
+}
+
+.planner-progress-wrap{
+  height:3px;
+  background:rgba(255,255,255,.07);
+  border-radius:99px;
+  margin-bottom:1.8rem;
+  overflow:hidden;
+}
+.planner-progress-bar{
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#FF6B2B,#7C3AED);
+  width:0%;
+  transition:width .4s ease;
+}
+
+.planner-form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.2rem;
+  margin-bottom:1.2rem;
+}
+.planner-field{display:flex;flex-direction:column;gap:.42rem}
+.planner-label{
+  font-size:.7rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+.planner-input, .planner-select{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:.8rem 1rem;
+  color:rgba(255,255,255,.88);
+  font-family:'DM Sans',sans-serif;
+  font-size:.9rem;
+  outline:none;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.planner-input::placeholder{color:rgba(255,255,255,.2)}
+.planner-input:focus,.planner-select:focus{
+  border-color:rgba(255,107,43,.5);
+  background:rgba(255,107,43,.06);
+  box-shadow:0 0 0 3px rgba(255,107,43,.1);
+}
+.planner-select{cursor:pointer}
+.planner-select option{background:#1a1a4a;color:#fff}
+
+.interests-label{
+  font-size:.7rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  margin-bottom:.6rem;
+}
+.interests-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+.chip{
+  padding:.38rem .95rem;
+  border-radius:50px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.48);
+  font-size:.78rem;font-weight:600;
+  cursor:pointer;
+  transition:all .22s;
+  user-select:none;
+}
+.chip:hover{border-color:rgba(255,107,43,.5);color:rgba(255,255,255,.8);background:rgba(255,107,43,.08)}
+.chip.active{
+  background:linear-gradient(135deg,rgba(255,107,43,.22),rgba(124,58,237,.18));
+  border-color:rgba(255,107,43,.6);
+  color:#FF6B2B;
+  box-shadow:0 0 14px rgba(255,107,43,.15);
+}
+
+.planner-char-row{display:flex;justify-content:space-between;align-items:center;margin-top:.3rem}
+.planner-char-count{font-size:.68rem;color:rgba(255,255,255,.2)}
+
+.btn-generate-trip{
+  width:100%;
+  margin-top:1.8rem;
+  background:linear-gradient(135deg,#FF6B2B 0%,#FF4D8D 50%,#7C3AED 100%);
+  color:#fff;border:none;border-radius:14px;
+  padding:1.05rem 2rem;
+  font-family:'DM Sans',sans-serif;
+  font-size:1rem;font-weight:700;
+  letter-spacing:.08em;cursor:pointer;
+  box-shadow:0 6px 30px rgba(255,107,43,.4);
+  transition:transform .2s,box-shadow .25s,opacity .2s;
+  position:relative;overflow:hidden;
+}
+.btn-generate-trip::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.btn-generate-trip:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 44px rgba(255,107,43,.55);
+}
+.btn-generate-trip:hover::before{opacity:1}
+.btn-generate-trip:active{transform:translateY(0)}
+.btn-generate-trip.loading{opacity:.7;pointer-events:none}
+
+.btn-gen-inner{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+}
+.spin-icon{display:inline-block;animation:spinIcon .7s linear infinite}
+@keyframes spinIcon{to{transform:rotate(360deg)}}
+
+/* result */
+.planner-result{
+  display:none;
+  margin-top:2rem;
+  background:rgba(0,201,177,.06);
+  border:1px solid rgba(0,201,177,.18);
+  border-radius:16px;
+  padding:1.4rem 1.6rem;
+  animation:fadeUp .5s ease both;
+}
+.planner-result.visible{display:block}
+.result-header{
+  font-size:.72rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#00C9B1;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.result-day-block{margin-bottom:1rem}
+.result-day-title{
+  font-size:.8rem;font-weight:700;
+  background:linear-gradient(135deg,#FF6B2B,#FF4D8D);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:.05em;margin-bottom:.3rem;
+}
+.result-day-block p{color:rgba(255,255,255,.6);font-size:.88rem;line-height:1.65}
+.result-meta{
+  margin-top:1rem;padding-top:1rem;
+  border-top:1px solid rgba(0,201,177,.14);
+  color:rgba(255,255,255,.28);font-size:.78rem;
+  line-height:1.5;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  .hero-card{grid-template-columns:1fr;text-align:center}
+  .hero-btns{justify-content:center}
+  .hero-right{display:none}
+  .what-cards{grid-template-columns:1fr}
+  .how-grid{grid-template-columns:1fr}
+  .how-visual{max-width:400px;margin:0 auto}
+  .places-grid{grid-template-columns:repeat(2,1fr)}
+  .service-item,.service-item.reverse{grid-template-columns:1fr;direction:ltr}
+  .footer-grid{grid-template-columns:1fr}
+  .planner-form-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .places-grid{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:2.4rem}
+  .section{padding:4rem 0}
+  .planner-box{padding:1.8rem 1.2rem}
+}
+@media(max-width:480px){
+  .places-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo font-display">Tour<span>Go</span></div>
+    <ul class="nav-links">
+      <li><a href="#what-it-is">What TourGo Is</a></li>
+      <li><a href="#how-it-works">How TourGo Works</a></li>
+      <li><a href="place.html">Places</a></li>
+      <li><a href="Regions.html">Regions</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+      <button class="btn-signin" id="openModal">Sign In / Sign Up</button>
+      <button class="hamburger" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#what-it-is" onclick="closeMobile()">What TourGo Is</a>
+  <a href="#how-it-works" onclick="closeMobile()">How TourGo Works</a>
+  <a href="place.html" onclick="closeMobile()">Places</a>
+  <a href="Regions.html" onclick="closeMobile()">Regions</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-card">
+      <div class="hero-left">
+        <p class="hero-tagline">✦ Discover the World Your Way</p>
+        <h1 class="hero-title font-display">TOUR<span>GO</span></h1>
+        <p class="hero-subtitle font-serif">A Perfect Tour Planner</p>
+        <div class="hero-btns">
+          <button class="btn-primary">Get The App</button>
+          <button class="btn-rating">⭐ 4.9 Rating</button>
+        </div>
+        <!-- ▼ SEARCH BAR — clicking "plan here" now opens the AI planner -->
+        <div class="hero-search">
+          <input type="text" placeholder="Plan Your Trip — where to?" id="heroSearch"/>
+          <button onclick="handleSearch()">plan here →</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-img-wrap">
+          <img src="logo.jpeg" alt="Travel destination"/>
+        </div>
+        <div class="hero-badge">
+          <p>Destinations</p>
+          <strong>25+</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHAT IT IS ─── -->
+<section id="what-it-is" class="section">
+  <div class="container">
+    <h2 class="section-title">What It Is</h2>
+    <p class="section-sub">It is a tourist platform where it focuses on</p>
+    <div class="what-cards">
+      <div class="what-card">
+        <div class="what-card-icon">🧭</div>
+        <h3>Discover &amp; Plan</h3>
+        <p>TourGo helps you know, plan your day and learn about places in an unknown city — turning every unfamiliar street into an adventure waiting to happen.</p>
+      </div>
+      <div class="what-card">
+        <div class="what-card-icon">🌿</div>
+        <h3>Hidden Gems</h3>
+        <p>TourGo helps people who are tired of visiting the same places repeatedly by suggesting underrated, off-the-beaten-path destinations that locals love.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how-it-works" class="section">
+  <div class="container">
+    <h2 class="section-title">How TourGo Works</h2>
+    <p class="section-sub">Simple, smart, and seamless travel intelligence</p>
+    <div class="how-grid">
+      <div class="how-visual">
+        <img src="offline.jpg" alt="Offline Maps">
+        <div class="how-visual-ring"></div>
+        <div class="how-visual-ring"></div>
+        <div class="how-visual-ring"></div>
+      </div>
+      <div class="how-content">
+        <h3>It works in 2 ways</h3>
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <p>By accessing your device location, TourGo intelligently recommends the best nearby places, restaurants, hotels, and hidden gems tailored just for you.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <p>You can search any region of your choice and TourGo instantly shows curated results including famous landmarks, top-rated hotels, and local restaurants.</p>
+        </div>
+        <div class="how-tags">
+          <span class="tag">📍 Famous Places</span>
+          <span class="tag">🏨 Hotels</span>
+          <span class="tag">🍽️ Restaurants</span>
+          <span class="tag">🗺️ Region Search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PLACES ─── -->
+<section id="places" class="section">
+  <div class="container">
+    <h2 class="section-title">Some Of Famous And UnderRated Places</h2>
+    <p class="section-sub">Curated destinations you won't want to miss</p>
+    <div class="places-grid">
+      <div class="place-card"><a href="pic13.html">
+        <div class="place-img">
+          <img src="T11.jpeg" alt="Go Karting"/>
+          <span class="place-badge">ICONIC</span>
+        </div>
+        <div class="place-info">
+          <h4>Go Karting</h4>
+          <p>An adventure sport activity available in recreational zones near Kakinada.<br>Fun team activity.</p>
+          <div class="place-stars">★★★★★</div>
+        </a></div>
+      </div>
+      <div class="place-card"><a href="pic18.html">
+        <div class="place-img">
+          <img src="T18.jpeg" alt="Paradigm Sarovar Portico"/>
+          <span class="place-badge">HIDDEN GEM</span>
+        </div>
+        <div class="place-info">
+          <h4>Paradigm Sarovar Portico</h4>
+          <p>Paradigm Sarovar Portico is a modern 4-star hotel located in Kakinada, offering stylish rooms with contemporary amenities.</p>
+          <div class="place-stars">★★★★★</div>
+       </a> </div>
+      </div>
+      <div class="place-card"><a href="pic9.html">
+        <div class="place-img">
+          <img src="T7.jpeg" alt="Uppada Beach"/>
+          <span class="place-badge">TRENDING</span>
+        </div>
+        <div class="place-info">
+          <h4>Uppada Beach</h4>
+          <p>A calm and scenic beach near Kakinada, known for sunrise views.<br>Popular picnic and relaxation spot.</p>
+          <div class="place-stars">★★★★☆</div>
+       </a> </div>
+      </div>
+      <div class="place-card"><a href="pic4.html">
+        <div class="place-img">
+          <img src="T2.jpeg" alt="Satya Narayana Swamy Temple"/>
+          <span class="place-badge">POPULAR</span>
+        </div>
+        <div class="place-info">
+          <a href="pic4.html"><h4>Satya Narayana Swamy Temple</h4></a>
+          <p>Situated on Ratnagiri Hill, this temple is dedicated to Lord Satyanarayana.<br>One of the most visited pilgrimage centers in Andhra Pradesh.</p>
+          <div class="place-stars">★★★★★</div>
+       </a> </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="section-title">Services Provided By TourGo</h2>
+    <p class="section-sub">Everything you need for the perfect journey</p>
+
+    <div class="service-item">
+      <div class="service-visual"><img src="offline2.jpg" alt="offline maps"/></div>
+      <div class="service-text">
+        <p class="service-num">01 / OFFLINE MAPS</p>
+        <h3>Offline Maps</h3>
+        <p>TourGo offline maps help users access tourist places, hotels, restaurants, and travel routes even without an internet connection. Users can download a region's map beforehand and use it anytime during travel in low-network areas.</p>
+        <a class="service-link" href="#">Explore Offline Maps →</a>
+      </div>
+    </div>
+
+    <div class="service-item reverse">
+      <div class="service-visual"><img src="service2.jpeg" alt="Hotels, Restaurants & Dining"></div>
+      <div class="service-text">
+        <p class="service-num">02 / SERVICE</p>
+        <h3>Hotels, Restaurant &amp; Dining</h3>
+        <p>Discover hotels for accommodation, authentic local cuisine and top-rated restaurants wherever you travel. Filter by cuisine type, price range, or ambiance — TourGo ensures every meal is an experience.</p>
+        <a class="service-link" href="place.html">Find Hotels & Restaurants →</a>
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-visual"><img src="service3.jpg" alt="AI Travel Planner"></div>
+      <div class="service-text">
+        <p class="service-num">03 / SERVICE</p>
+        <h3>AI Travel Planner</h3>
+        <p>An AI travel planner uses Artificial Intelligence to automatically plan trips based on user interests, budget, and travel dates. It suggests itineraries, hotels, restaurants, routes, and nearby attractions for a better travel experience.</p>
+        <!-- ▼ This button also opens the AI planner -->
+        <a class="service-link" href="#" onclick="openTripPlanner(event,'')">Plan a Region →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COLLABORATIONS ─── -->
+<section id="collaborations" class="section">
+  <div class="container">
+    <h2 class="section-title">We Collaborated With</h2>
+    <p class="section-sub">Trusted partners powering your travel experience</p>
+    <div class="collab-grid-row">
+      <div class="collab-card"><div class="collab-icon">✈️</div><div class="collab-name">IndiGo</div></div>
+      <div class="collab-card"><div class="collab-icon">🏨</div><div class="collab-name">OYO Rooms</div></div>
+      <div class="collab-card"><div class="collab-icon">🗺️</div><div class="collab-name">MakeMyTrip</div></div>
+      <div class="collab-card"><div class="collab-icon">🚗</div><div class="collab-name">Rapido</div></div>
+    </div>
+    <div class="collab-grid-row">
+      <div class="collab-card"><div class="collab-icon">🍽️</div><div class="collab-name">Zomato</div></div>
+      <div class="collab-card"><div class="collab-icon">📸</div><div class="collab-name">Thrillophilia</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div class="footer-feedback">
+      <h3>Feedback &amp; Suggestions</h3>
+      <p>We'd love to hear from you. Help us make TourGo better.</p>
+      <div class="form-group">
+        <input type="text" placeholder="Your Name"/>
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email Address"/>
+      </div>
+      <div class="form-group">
+        <textarea placeholder="Your message or suggestion…"></textarea>
+      </div>
+      <button class="btn-submit">Send Message</button>
+    </div>
+    <div class="footer-info">
+      <div class="nav-logo font-display" style="color:#FF6B2B;font-size:1.8rem;margin-bottom:.3rem">TourGo</div>
+      <p class="footer-tagline">A Perfect Tour Planner</p>
+      <div class="footer-social">
+        <a class="social-btn" href="#"><span>📸</span> Instagram</a>
+        <a class="social-btn" href="#"><span>🐦</span> Twitter</a>
+        <a class="social-btn" href="#"><span>📧</span> Email</a>
+      </div>
+      <ul class="footer-contact">
+        <li><span>📍</span><span>RTC Complex, Rajahmundry-533107, Andhra Pradesh</span></li>
+        <li><span>📞</span><span>+91 98765 43210</span></li>
+        <li><span>✉️</span><span>hello@tourgo.app</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 TourGo. All rights reserved.</p>
+    <p class="footer-copy">Made with ♥ for Explorers</p>
+  </div>
+</footer>
+
+<!-- ─── SIGN IN MODAL ─── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal">✕</button>
+    <div class="modal-logo font-display">TourGo</div>
+    <p class="modal-sub">Welcome back, explorer. Let's plan your next trip.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="signin">Sign In</button>
+      <button class="modal-tab" data-tab="signup">Sign Up</button>
+    </div>
+    <div class="modal-form active" id="signinForm">
+      <div class="modal-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com" id="signinEmail"/>
+      </div>
+      <div class="modal-group">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••" id="signinPass"/>
+      </div>
+      <button class="btn-modal-submit" onclick="handleSignIn()">Sign In</button>
+    </div>
+    <div class="modal-form" id="signupForm">
+      <div class="modal-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Your name"/>
+      </div>
+      <div class="modal-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com"/>
+      </div>
+      <div class="modal-group">
+        <label>Password</label>
+        <input type="password" placeholder="Create a strong password"/>
+      </div>
+      <button class="btn-modal-submit" onclick="handleSignUp()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AI TRIP PLANNER MODAL  ← NEW ADDITION
+═══════════════════════════════════════════════════ -->
+<div id="plannerOverlay">
+  <div class="planner-bg-blob b1"></div>
+  <div class="planner-bg-blob b2"></div>
+  <div class="planner-bg-blob b3"></div>
+
+  <div class="planner-box">
+    <button class="planner-close-btn" onclick="closeTripPlanner()" aria-label="Close planner">✕</button>
+
+    <div class="planner-ai-badge"><span class="pulse-dot"></span> AI-Powered Planner</div>
+
+    <h2 class="planner-heading">Plan Your <span>Perfect Trip</span></h2>
+    <p class="planner-subtitle">Tell our AI where you want to go — it crafts a personalised journey just for you, from hidden gems to luxury stays.</p>
+
+    <div class="planner-divider"></div>
+
+    <div class="planner-progress-wrap">
+      <div class="planner-progress-bar" id="plannerProgress"></div>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="planner-form-grid">
+      <div class="planner-field">
+        <label class="planner-label">📍 Destination</label>
+        <input type="text" id="p-dest" class="planner-input" placeholder="e.g. Bali, Kyoto, Goa…" oninput="updatePlannerProgress()"/>
+      </div>
+      <div class="planner-field">
+        <label class="planner-label">💸 Budget</label>
+        <select id="p-budget" class="planner-select" onchange="updatePlannerProgress()">
+          <option value="">Select budget</option>
+          <option>Budget (Under ₹10k)</option>
+          <option>Mid-range (₹10k–₹40k)</option>
+          <option>Premium (₹40k–₹1L)</option>
+          <option>Luxury (₹1L+)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="planner-form-grid">
+      <div class="planner-field">
+        <label class="planner-label">📅 Duration</label>
+        <select id="p-duration" class="planner-select" onchange="updatePlannerProgress()">
+          <option value="">Select days</option>
+          <option>1–2 Days (Weekend)</option>
+          <option>3–4 Days</option>
+          <option>5–7 Days (Week)</option>
+          <option>8–14 Days</option>
+          <option>15+ Days</option>
+        </select>
+      </div>
+      <div class="planner-field">
+        <label class="planner-label">🧳 Travel Style</label>
+        <select id="p-style" class="planner-select" onchange="updatePlannerProgress()">
+          <option value="">Select style</option>
+          <option>Adventure &amp; Outdoors</option>
+          <option>Cultural &amp; Heritage</option>
+          <option>Relaxed &amp; Slow Travel</option>
+          <option>Luxury &amp; Indulgence</option>
+          <option>Budget Backpacking</option>
+          <option>Family Friendly</option>
+          <option>Romantic Getaway</option>
+          <option>Solo Exploration</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Interests -->
+    <div class="interests-label">🎯 Interests — pick all that apply</div>
+    <div class="interests-chips" id="plannerChips">
+      <span class="chip" onclick="togglePlannerChip(this)">🏛️ History</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🍜 Food &amp; Cuisine</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🏖️ Beaches</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🌄 Mountains</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🛍️ Shopping</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🏕️ Camping</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🎭 Nightlife</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🙏 Temples</span>
+      <span class="chip" onclick="togglePlannerChip(this)">📸 Photography</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🚴 Cycling</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🤿 Water Sports</span>
+      <span class="chip" onclick="togglePlannerChip(this)">🌿 Nature &amp; Wildlife</span>
+    </div>
+
+    <!-- Special Requests -->
+    <div class="planner-field" style="margin-bottom:.3rem">
+      <label class="planner-label">✍️ Special Requests (optional)</label>
+      <textarea id="p-special" class="planner-input" rows="2"
+        placeholder="Wheelchair accessible, vegetarian food, honeymoon surprise…"
+        maxlength="240" oninput="updatePlannerCharCount()"
+        style="resize:vertical;line-height:1.6"></textarea>
+      <div class="planner-char-row">
+        <span></span>
+        <span class="planner-char-count" id="plannerCharCount">0 / 240</span>
+      </div>
+    </div>
+
+    <button class="btn-generate-trip" id="genTripBtn" onclick="generateTripPlan()">
+      <div class="btn-gen-inner" id="genTripInner">
+        <span>✦</span> Generate My Trip
+      </div>
+    </button>
+
+    <!-- Result -->
+    <div class="planner-result" id="plannerResult">
+      <div class="result-header">✦ Your AI-Generated Itinerary</div>
+      <div id="plannerResultContent"></div>
+      <div class="result-meta" id="plannerResultMeta"></div>
+    </div>
+  </div>
+</div>
+<!-- ═══ END AI TRIP PLANNER MODAL ═══ -->
+
+
+<script>
+/* ─── STATE ─── */
+let isLoggedIn = false;
+let currentUser = '';
+
+/* ─── NAVBAR SCROLL ─── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ─── THEME ─── */
+const root = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('tourgo-theme') || 'light';
+root.setAttribute('data-theme', savedTheme);
+themeToggle.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('tourgo-theme', next);
+});
+
+/* ─── HAMBURGER ─── */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+function closeMobile(){ mobileMenu.classList.remove('open'); }
+document.addEventListener('click', e => {
+  if(!menuBtn.contains(e.target) && !mobileMenu.contains(e.target))
+    mobileMenu.classList.remove('open');
+});
+
+/* ─── SIGN IN MODAL ─── */
+const overlay = document.getElementById('modalOverlay');
+document.getElementById('openModal').addEventListener('click', () => {
+  if(isLoggedIn){ handleSignOut(); return; }
+  overlay.classList.add('open');
+});
+document.getElementById('closeModal').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', e => { if(e.target === overlay) overlay.classList.remove('open'); });
+
+document.querySelectorAll('.modal-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.modal-form').forEach(f => f.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
+  });
+});
+
+function handleSignIn(){
+  const email = document.getElementById('signinEmail').value.trim();
+  const pass  = document.getElementById('signinPass').value.trim();
+  if(!email || !pass){ shakeModal(); return; }
+  isLoggedIn = true;
+  currentUser = email.split('@')[0];
+  overlay.classList.remove('open');
+  updateNavBtn();
+  showToast('Welcome back, ' + currentUser + '! ✈️');
+}
+function handleSignUp(){
+  isLoggedIn = true;
+  currentUser = 'Explorer';
+  overlay.classList.remove('open');
+  updateNavBtn();
+  showToast('Account created! Ready to explore? 🌏');
+}
+function handleSignOut(){
+  isLoggedIn = false;
+  currentUser = '';
+  updateNavBtn();
+  showToast('Signed out. Safe travels! 👋');
+}
+function updateNavBtn(){
+  const btn = document.getElementById('openModal');
+  btn.textContent = isLoggedIn ? 'Sign Out (' + currentUser + ')' : 'Sign In / Sign Up';
+  btn.style.background = isLoggedIn ? 'linear-gradient(135deg,#00C9B1,#7C3AED)' : '';
+}
+function shakeModal(){
+  const box = document.querySelector('.modal-box');
+  box.style.animation = 'none';
+  requestAnimationFrame(() => { box.style.animation = 'shake .4s ease'; });
+}
+
+/* ─── HERO SEARCH — opens AI planner ─── */
+function handleSearch(){
+  const q = document.getElementById('heroSearch').value.trim();
+  openTripPlanner(null, q);
+}
+document.getElementById('heroSearch').addEventListener('keydown', e => {
+  if(e.key === 'Enter') handleSearch();
+});
+
+/* ══════════════════════════════════════
+   AI TRIP PLANNER FUNCTIONS
+══════════════════════════════════════ */
+function openTripPlanner(e, dest){
+  if(e) e.preventDefault();
+  const pl = document.getElementById('plannerOverlay');
+  pl.classList.add('open');
+  // Pre-fill destination if supplied from search bar
+  if(dest){
+    document.getElementById('p-dest').value = dest;
+    updatePlannerProgress();
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTripPlanner(){
+  const pl = document.getElementById('plannerOverlay');
+  pl.style.opacity = '0';
+  pl.style.transition = 'opacity .3s';
+  setTimeout(() => {
+    pl.classList.remove('open');
+    pl.style.opacity = '';
+    pl.style.transition = '';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+// Close planner when clicking backdrop
+document.getElementById('plannerOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeTripPlanner();
+});
+
+// Close planner on Escape key
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && document.getElementById('plannerOverlay').classList.contains('open'))
+    closeTripPlanner();
+});
+
+function togglePlannerChip(el){
+  el.classList.toggle('active');
+  updatePlannerProgress();
+}
+
+function updatePlannerCharCount(){
+  const len = document.getElementById('p-special').value.length;
+  document.getElementById('plannerCharCount').textContent = len + ' / 240';
+}
+
+function updatePlannerProgress(){
+  const fields = ['p-dest','p-budget','p-duration','p-style'];
+  const filled = fields.filter(id => document.getElementById(id).value.trim() !== '').length;
+  const hasChip = document.querySelectorAll('#plannerChips .chip.active').length > 0 ? 1 : 0;
+  const pct = Math.round(((filled + hasChip) / 5) * 100);
+  document.getElementById('plannerProgress').style.width = pct + '%';
+}
+
+function generateTripPlan(){
+  const dest     = document.getElementById('p-dest').value.trim();
+  const budget   = document.getElementById('p-budget').value;
+  const duration = document.getElementById('p-duration').value;
+  const style    = document.getElementById('p-style').value;
+
+  if(!dest || !budget || !duration || !style){
+    const btn = document.getElementById('genTripBtn');
+    const inner = document.getElementById('genTripInner');
+    btn.style.background = 'linear-gradient(135deg,#FF4D8D,#E5521A)';
+    inner.innerHTML = '⚠️ Please fill all required fields';
+    setTimeout(() => {
+      btn.style.background = '';
+      inner.innerHTML = '<span>✦</span> Generate My Trip';
+    }, 2200);
+    return;
+  }
+
+  const interests = Array.from(document.querySelectorAll('#plannerChips .chip.active'))
+                         .map(c => c.textContent.trim());
+
+  const btn   = document.getElementById('genTripBtn');
+  const inner = document.getElementById('genTripInner');
+  btn.classList.add('loading');
+  inner.innerHTML = '<span class="spin-icon">⟳</span> Crafting your journey…';
+
+  const plans = {
+    '1–2 Days (Weekend)': [
+      { t:'Day 1 — Arrive & Explore', d:'Check in and freshen up. Head straight to the most iconic landmark. Enjoy lunch at a top-rated local restaurant. End the evening with street food and a rooftop sunset.' },
+      { t:'Day 2 — Hidden Gems & Depart', d:'Early-morning local market visit, a hidden neighbourhood walk, a cultural experience, and a final local meal before you head home.' }
+    ],
+    '3–4 Days': [
+      { t:'Day 1 — Orientation', d:'Settle in, take a city walk, visit the top attraction, and enjoy dinner at a curated local spot.' },
+      { t:'Day 2 — Culture Deep Dive', d:'Museum or heritage site in the morning. Hidden gem café in the afternoon. Rooftop dinner at night.' },
+      { t:'Day 3 — Adventure Day', d:'Full outdoor or activity day tailored to your travel style. Local cuisine workshop in the evening.' },
+      { t:'Day 4 — Slow Morning & Depart', d:'Leisure breakfast, souvenir shopping, final meal, and check-out.' }
+    ],
+    '5–7 Days (Week)': [
+      { t:'Days 1–2 — Arrive & Acclimate', d:'Hotel check-in, orientation walk, iconic landmarks, great food finds.' },
+      { t:'Days 3–4 — Culture & Nature', d:'Museums, temples, gardens, and panoramic viewpoints at a relaxed pace.' },
+      { t:'Days 5–6 — Off the Beaten Path', d:'Day trip to a nearby hidden gem. Meet locals, try authentic cuisine, explore the countryside.' },
+      { t:'Day 7 — Leisure & Departure', d:'Final rooftop breakfast. Market stroll. Head home with memories.' }
+    ],
+    '8–14 Days': [
+      { t:'Week 1 — Highlights Tour', d:'Cover all major landmarks, cultural centres, and food trails at a comfortable pace.' },
+      { t:'Week 2 — Deep Exploration', d:'Day trips to nearby towns, hidden beaches or mountains, and immersive local experiences.' }
+    ],
+    '15+ Days': [
+      { t:'Phase 1 — City & Culture (Days 1–7)', d:'Urban exploration, history, street food, art scenes, and architecture.' },
+      { t:'Phase 2 — Nature & Adventure (Days 8–14)', d:'National parks, trekking, coastal escapes, and wildlife encounters.' },
+      { t:'Phase 3 — Slow & Immersive (Days 15+)', d:'Live like a local. Cook, create, connect. A truly transformative ending.' }
+    ]
+  };
+
+  const days = plans[duration] || plans['3–4 Days'];
+  const interestNote = interests.length > 0
+    ? 'Curated for: ' + interests.join(', ') + '.'
+    : 'Tailored for general exploration.';
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    inner.innerHTML = '<span>✓</span> Itinerary Ready!';
+    btn.style.background = 'linear-gradient(135deg,#00C9B1,#7C3AED)';
+
+    document.getElementById('plannerResultContent').innerHTML =
+      days.map(d => `
+        <div class="result-day-block">
+          <div class="result-day-title">${d.t}</div>
+          <p>${d.d}</p>
+        </div>`).join('');
+
+    document.getElementById('plannerResultMeta').innerHTML =
+      `<strong style="color:rgba(255,255,255,.4)">${dest} · ${budget} · ${style}</strong><br>${interestNote}`;
+
+    const result = document.getElementById('plannerResult');
+    result.classList.add('visible');
+    result.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+    setTimeout(() => {
+      inner.innerHTML = '<span>✦</span> Regenerate Trip';
+      btn.style.background = '';
+      btn.classList.remove('loading');
+    }, 2200);
+  }, 1900);
+}
+/* ══ END AI TRIP PLANNER ══ */
+
+/* ─── TOAST ─── */
+function showToast(msg){
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    Object.assign(t.style,{
+      position:'fixed',bottom:'2rem',left:'50%',
+      transform:'translateX(-50%) translateY(20px)',
+      background:'linear-gradient(135deg,#FF6B2B,#FF4D8D)',color:'#fff',
+      padding:'.75rem 1.8rem',borderRadius:'50px',
+      fontFamily:"'DM Sans',sans-serif",fontSize:'.9rem',
+      fontWeight:'600',boxShadow:'0 8px 30px rgba(0,0,0,.3)',
+      zIndex:'4000',opacity:'0',transition:'all .35s',
+      whiteSpace:'nowrap',pointerEvents:'none'
+    });
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 3000);
+}
+
+/* ─── SCROLL REVEAL ─── */
+document.querySelectorAll('.what-card,.place-card,.service-item,.collab-card,.how-grid').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity .7s, transform .7s';
+  const io = new IntersectionObserver(([entry]) => {
+    if(entry.isIntersecting){
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+      io.unobserve(el);
+    }
+  }, {threshold:.1});
+  io.observe(el);
+});
+
+/* ─── KEYFRAMES ─── */
+const ks = document.createElement('style');
+ks.textContent = `
+  @keyframes shake{
+    0%,100%{transform:scale(1) translateY(0)}
+    25%{transform:scale(1) translateY(0) translateX(-6px)}
+    75%{transform:scale(1) translateY(0) translateX(6px)}
+  }
+`;
+document.head.appendChild(ks);
+</script>
+</body>
+</html>
